@@ -147,7 +147,8 @@ contract LiquidationOperator is IUniswapV2Callee {
 
     ILendingPool constant lendingPool = ILendingPool(0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9);
 
-    address constant liquidationTarget = 0x59CE4a2AC5bC3f5F225439B2993b86B42f6d3e9F;
+    // address constant liquidationTarget = 0x59CE4a2AC5bC3f5F225439B2993b86B42f6d3e9F;
+    address constant liquidationTarget = 0x63f6037d3e9d51ad865056BF7792029803b6eEfD;
     uint debt_USDT;
 
     // END TODO
@@ -195,9 +196,9 @@ contract LiquidationOperator is IUniswapV2Callee {
 
         uniswapV2Pair_WETH_USDT = IUniswapV2Pair(uniswapV2Factory.getPair(address(WETH), address(USDT))); // Pool1
         uniswapV2Pair_WBTC_WETH = IUniswapV2Pair(uniswapV2Factory.getPair(address(WBTC), address(WETH))); // Pool2
-        // debt_USDT = 2916378221684;
+        debt_USDT = 2916378221684;
         // debt_USDT = 2000 * 1e6;
-        debt_USDT = 5000 * 1e6;
+        // debt_USDT = 5000 * 1e6;
         // debt_USDT = 10000 * 1e6;
 
         // END TODO
@@ -234,6 +235,9 @@ contract LiquidationOperator is IUniswapV2Callee {
         ) = lendingPool.getUserAccountData(liquidationTarget);
 
         require(healthFactor < (10 ** health_factor_decimals), "Cannot liquidate; health factor must be below 1" );
+        // if (healthFactor >= (10 ** health_factor_decimals)) {
+        //     console.log("Health factor:", healthFactor);
+        // }
 
         // 2. call flash swap to liquidate the target user
         // based on https://etherscan.io/tx/0xac7df37a43fab1b130318bbb761861b8357650db2e2c6493b73d6da3d9581077
